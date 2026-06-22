@@ -112,4 +112,3 @@ stateDiagram-v2
 3. 错误码按聚合区分：CONVERSATION_ILLEGAL_STATE_TRANSITION、AFTERSALES_ILLEGAL_STATE_TRANSITION、TICKET_ILLEGAL_STATE_TRANSITION。
 4. 失败迁移不得改变聚合、分派、SLA 或处理记录，且不得发布成功事件。
 5. 状态记录至少保存旧状态、新状态、动作、操作者、原因、关联 ID 和发生时间。
-

@@ -136,4 +136,3 @@ ticket 对 conversation、order 和 aftersales 仅保存稳定引用并通过公
 ## 4. 自动化约束
 
 Stage 1 使用 Spring Modulith 验证或 ArchUnit 测试固化模块依赖。任何新增跨模块依赖必须先更新本文件和对应 ADR，再修改架构测试。
-

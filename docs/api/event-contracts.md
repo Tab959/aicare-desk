@@ -94,4 +94,3 @@ payload：notificationType、recipientId、templateCode、businessType、busines
 - RabbitMQ 只保证设计范围内的路由和投递，不假设全局顺序。
 - 消费者发现版本缺口时暂停该聚合处理并触发补偿或重建。
 - 搜索、通知和统计允许最终一致；工单和售后核心状态只以 MySQL 事务结果为准。
-

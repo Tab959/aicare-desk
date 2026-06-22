@@ -122,4 +122,3 @@ details 是结构化字段错误或冲突上下文，不包含堆栈、SQL、密
 - 客户端发送 messageKey，服务端返回持久化 messageId 和 sequenceNo。
 - 推送只表示通知，消息列表以持久化查询为准。
 - 重连使用 afterSequence 游标补拉，禁止只依赖内存中的未读状态。
-
