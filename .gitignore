@@ -1,5 +1,6 @@
 # Local brainstorming companion and temporary package caches
 .superpowers/
+.worktrees/
 
 # Local environment and secrets
 .env
@@ -21,4 +22,3 @@ target/
 .next/
 coverage/
 *.log
-
