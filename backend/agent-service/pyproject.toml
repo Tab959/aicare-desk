@@ -1,0 +1,25 @@
+[project]
+name = "aicare-agent-service"
+version = "0.1.0"
+description = "AICare Desk Python Agent service placeholder."
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.115.6",
+    "pydantic==2.10.4",
+    "uvicorn[standard]==0.34.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.4",
+    "httpx==0.28.1",
+    "ruff==0.8.4"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

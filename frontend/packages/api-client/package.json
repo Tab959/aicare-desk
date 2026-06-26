@@ -1,0 +1,14 @@
+{
+  "name": "@aicare/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "check": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aicare/shared": "workspace:*"
+  }
+}

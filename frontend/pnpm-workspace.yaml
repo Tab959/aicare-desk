@@ -1,0 +1,6 @@
+packages:
+  - "customer-web"
+  - "staff-web"
+  - "packages/*"
+allowBuilds:
+  esbuild: set this to true or false

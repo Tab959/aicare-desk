@@ -1,0 +1,4117 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GameCare Desk API",
+    "version": "0.2.0",
+    "description": "阶段 2 接口契约：C 端商城与 B 端分类后台菜单。"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "CustomerHome"
+    },
+    {
+      "name": "CustomerGames"
+    },
+    {
+      "name": "CustomerCart"
+    },
+    {
+      "name": "CustomerOrders"
+    },
+    {
+      "name": "CustomerSupport"
+    },
+    {
+      "name": "CustomerProfile"
+    },
+    {
+      "name": "StaffConversations"
+    },
+    {
+      "name": "StaffTickets"
+    },
+    {
+      "name": "StaffCatalog"
+    },
+    {
+      "name": "StaffBusiness"
+    },
+    {
+      "name": "StaffKnowledge"
+    },
+    {
+      "name": "StaffUsers"
+    },
+    {
+      "name": "StaffPermissions"
+    },
+    {
+      "name": "StaffAudit"
+    },
+    {
+      "name": "StaffUploads"
+    }
+  ],
+  "paths": {
+    "/home/recommended-games": {
+      "get": {
+        "tags": [
+          "CustomerHome"
+        ],
+        "summary": "C 端首页个性化推荐游戏",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSummaryList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/home/featured-games": {
+      "get": {
+        "tags": [
+          "CustomerHome"
+        ],
+        "summary": "C 端首页精选游戏",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSummaryList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/home/sales-ranking": {
+      "get": {
+        "tags": [
+          "CustomerHome"
+        ],
+        "summary": "C 端首页销量榜",
+        "parameters": [
+          {
+            "name": "window",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "24h",
+                "7d",
+                "30d"
+              ],
+              "default": "24h"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameRankingList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "C 端游戏列表",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/{gameId}": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "C 端游戏详情",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/{gameId}/related": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "游戏详情页相关游戏推荐",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSummaryList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/game-filters": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "搜索页筛选项",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSearchFilters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/games": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "搜索游戏",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": true
+          },
+          {
+            "name": "purchaseMethod",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": true
+          },
+          {
+            "name": "priceMin",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "priceMax",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSearchResultPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deals/games": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "优惠游戏列表",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flash-sales/current": {
+      "get": {
+        "tags": [
+          "CustomerGames"
+        ],
+        "summary": "当前限时秒杀",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlashSale"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags": [
+          "CustomerCart"
+        ],
+        "summary": "C 端购物车",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/items": {
+      "post": {
+        "tags": [
+          "CustomerCart"
+        ],
+        "summary": "加入购物车",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCartItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/items/{cartItemId}": {
+      "patch": {
+        "tags": [
+          "CustomerCart"
+        ],
+        "summary": "修改购物车条目",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CartItemId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCartItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CustomerCart"
+        ],
+        "summary": "移除购物车条目",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CartItemId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "CustomerOrders"
+        ],
+        "summary": "C 端订单列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrderStatus"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CustomerOrders"
+        ],
+        "summary": "创建订单",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "CustomerOrders"
+        ],
+        "summary": "C 端订单详情",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrderId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/mock-payment": {
+      "post": {
+        "tags": [
+          "CustomerOrders"
+        ],
+        "summary": "演示环境模拟支付完成",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrderId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MockPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entitlements": {
+      "get": {
+        "tags": [
+          "CustomerOrders"
+        ],
+        "summary": "C 端我的数字权益",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EntitlementStatus"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntitlementPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/issue-types": {
+      "get": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "客服问题类型",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SupportIssueType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/context": {
+      "get": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "客服入口上下文",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportContext"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/sessions": {
+      "post": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "创建或复用客服会话",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSupportSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportSession"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/sessions/{sessionId}": {
+      "get": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "C 端客服会话详情",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportSessionDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/sessions/{sessionId}/messages": {
+      "get": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "会话消息列表",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          },
+          {
+            "name": "afterSequence",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportMessagePage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CustomerSupport"
+        ],
+        "summary": "发送会话消息",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSupportMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "CustomerProfile"
+        ],
+        "summary": "C 端个人信息",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/conversations/pending": {
+      "get": {
+        "tags": [
+          "StaffConversations"
+        ],
+        "summary": "B 端待接待会话",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffConversationSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/conversations/accepted": {
+      "get": {
+        "tags": [
+          "StaffConversations"
+        ],
+        "summary": "B 端已接待与历史会话",
+        "parameters": [
+          {
+            "name": "staffId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffConversationSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/conversations/{sessionId}": {
+      "get": {
+        "tags": [
+          "StaffConversations"
+        ],
+        "summary": "B 端会话详情",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffConversationDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/conversations/{sessionId}/accept": {
+      "post": {
+        "tags": [
+          "StaffConversations"
+        ],
+        "summary": "客服接入待接待会话",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffConversationDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/conversations/{sessionId}/messages": {
+      "post": {
+        "tags": [
+          "StaffConversations"
+        ],
+        "summary": "B 端客服发送消息",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSupportMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/tickets": {
+      "post": {
+        "tags": [
+          "StaffTickets"
+        ],
+        "summary": "从会话或业务对象创建工单",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/tickets/pending": {
+      "get": {
+        "tags": [
+          "StaffTickets"
+        ],
+        "summary": "待处理工单",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/tickets/resolved": {
+      "get": {
+        "tags": [
+          "StaffTickets"
+        ],
+        "summary": "已处理工单",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/tickets/{ticketId}": {
+      "get": {
+        "tags": [
+          "StaffTickets"
+        ],
+        "summary": "工单详情",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TicketId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/tickets/{ticketId}/transition": {
+      "post": {
+        "tags": [
+          "StaffTickets"
+        ],
+        "summary": "工单状态迁移或业务处理动作",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TicketId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketTransitionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/games": {
+      "get": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "B 端上架/下架游戏列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/GamePublishStatus"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameAdminItemPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "新建游戏草稿",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGameDraftRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/games/{gameId}": {
+      "patch": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "编辑游戏基础信息、价格和交付配置",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGameRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/games/{gameId}/publish-status": {
+      "patch": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "上架或下架游戏",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGamePublishStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/games/{gameId}/media": {
+      "post": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "绑定游戏媒体",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BindGameMediaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameMediaAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/games/{gameId}/media/{mediaId}": {
+      "delete": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "删除游戏媒体绑定",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          },
+          {
+            "$ref": "#/components/parameters/MediaId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/staff/games/{gameId}/media/sort-order": {
+      "put": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "保存游戏媒体排序",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GameId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveGameMediaSortOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/uploads/presign": {
+      "post": {
+        "tags": [
+          "StaffUploads"
+        ],
+        "summary": "签发阿里云 OSS 上传凭证",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUploadPresignRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadPresignResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/uploads/{uploadId}/complete": {
+      "post": {
+        "tags": [
+          "StaffUploads"
+        ],
+        "summary": "确认上传完成",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UploadId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteUploadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadedAsset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/home-featured-games": {
+      "get": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "B 端首页精选游戏配置列表",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeaturedGameItemPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "保存首页精选游戏配置",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveFeaturedGamesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeaturedGameItemPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/flash-sales": {
+      "get": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "B 端限时秒杀场次列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlashSaleAdminItemPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "创建限时秒杀场次",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlashSaleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlashSaleAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/flash-sales/{flashSaleId}/publish-status": {
+      "patch": {
+        "tags": [
+          "StaffCatalog"
+        ],
+        "summary": "发布、暂停或结束秒杀场次",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FlashSaleId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFlashSaleStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlashSaleAdminItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/entitlements": {
+      "get": {
+        "tags": [
+          "StaffBusiness"
+        ],
+        "summary": "B 端数字权益列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EntitlementStatus"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntitlementAdminItemPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/refunds": {
+      "get": {
+        "tags": [
+          "StaffBusiness"
+        ],
+        "summary": "B 端退款审核列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundReviewSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/account-actions": {
+      "get": {
+        "tags": [
+          "StaffBusiness"
+        ],
+        "summary": "B 端账号处置记录列表",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountActionSummaryPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/knowledge-bases": {
+      "get": {
+        "tags": [
+          "StaffKnowledge"
+        ],
+        "summary": "知识库列表",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeBaseItemPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StaffKnowledge"
+        ],
+        "summary": "新建知识库",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateKnowledgeBaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeBaseItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/knowledge-bases/{knowledgeBaseId}/documents": {
+      "get": {
+        "tags": [
+          "StaffKnowledge"
+        ],
+        "summary": "知识库文档列表",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/KnowledgeBaseId"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeDocumentPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StaffKnowledge"
+        ],
+        "summary": "新增知识库文档",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/KnowledgeBaseId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateKnowledgeDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/support-agents": {
+      "get": {
+        "tags": [
+          "StaffUsers"
+        ],
+        "summary": "客服管理列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportAgentPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/support-agents/{staffId}/status": {
+      "patch": {
+        "tags": [
+          "StaffUsers"
+        ],
+        "summary": "启用/禁用客服或调整在线状态",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/StaffId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSupportAgentStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportAgent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/roles/module-permissions": {
+      "get": {
+        "tags": [
+          "StaffPermissions"
+        ],
+        "summary": "角色模块权限矩阵",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoleModulePermission"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "StaffPermissions"
+        ],
+        "summary": "保存角色模块权限矩阵",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRoleModulePermissionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleModulePermissionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/audit-logs": {
+      "get": {
+        "tags": [
+          "StaffAudit"
+        ],
+        "summary": "操作审计日志列表",
+        "parameters": [
+          {
+            "name": "actor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resourceType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditLogItemPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/agent-call-logs": {
+      "get": {
+        "tags": [
+          "StaffAudit"
+        ],
+        "summary": "Agent 调用日志列表",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentCallLogItemPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "Cursor": {
+        "name": "cursor",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 128
+        }
+      },
+      "GameId": {
+        "name": "gameId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "OrderId": {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "CartItemId": {
+        "name": "cartItemId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "SessionId": {
+        "name": "sessionId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "TicketId": {
+        "name": "ticketId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "FlashSaleId": {
+        "name": "flashSaleId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "KnowledgeBaseId": {
+        "name": "knowledgeBaseId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "StaffId": {
+        "name": "staffId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "UploadId": {
+        "name": "uploadId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "MediaId": {
+        "name": "mediaId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "资源不存在",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "状态、版本或幂等冲突",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "PageInfo": {
+        "type": "object",
+        "required": [
+          "hasMore"
+        ],
+        "properties": {
+          "nextCursor": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Money": {
+        "type": "object",
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "amount": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "DeliveryType": {
+        "type": "string",
+        "enum": [
+          "CDK",
+          "STEAM_GIFT",
+          "ACCOUNT",
+          "OFFLINE_PLAY",
+          "DOWNLOAD"
+        ]
+      },
+      "GamePublishStatus": {
+        "type": "string",
+        "enum": [
+          "DRAFT",
+          "PUBLISHED",
+          "OFFLINE"
+        ]
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": [
+          "CREATED",
+          "PAID",
+          "FULFILLING",
+          "COMPLETED",
+          "REFUNDING",
+          "CLOSED"
+        ]
+      },
+      "EntitlementStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING_DELIVERY",
+          "DELIVERED",
+          "REDEEMED",
+          "FAILED",
+          "REISSUED",
+          "REVOKED"
+        ]
+      },
+      "SupportSessionStatus": {
+        "type": "string",
+        "enum": [
+          "BOT_ACTIVE",
+          "WAITING_HUMAN",
+          "HUMAN_ACTIVE",
+          "RESOLVED",
+          "CLOSED"
+        ]
+      },
+      "MessageSenderType": {
+        "type": "string",
+        "enum": [
+          "CONSUMER",
+          "BOT",
+          "STAFF",
+          "SYSTEM"
+        ]
+      },
+      "RiskLevel": {
+        "type": "string",
+        "enum": [
+          "LOW",
+          "MEDIUM",
+          "HIGH"
+        ]
+      },
+      "TicketStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "IN_PROGRESS",
+          "WAITING_CUSTOMER",
+          "COMPLETED",
+          "REJECTED",
+          "CLOSED"
+        ]
+      },
+      "TicketType": {
+        "type": "string",
+        "enum": [
+          "REFUND_REVIEW",
+          "CDK_REISSUE",
+          "GIFT_REISSUE",
+          "ACCOUNT_ACTION",
+          "OTHER"
+        ]
+      },
+      "GameSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "availablePurchaseMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseMethod"
+            }
+          },
+          "versionCount": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "price": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "discountLabel": {
+            "type": "string"
+          },
+          "coverUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "publishStatus": {
+            "$ref": "#/components/schemas/GamePublishStatus"
+          }
+        }
+      },
+      "GameSummaryList": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummary"
+            }
+          }
+        }
+      },
+      "GameSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "GameRankingItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "salesCount": {
+            "type": "integer"
+          },
+          "game": {
+            "$ref": "#/components/schemas/GameSummary"
+          }
+        }
+      },
+      "GameRankingList": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameRankingItem"
+            }
+          }
+        }
+      },
+      "GameDetail": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/GameSummary"
+          },
+          "description": {
+            "type": "string"
+          },
+          "media": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameMedia"
+            }
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameVersion"
+            }
+          },
+          "refundRule": {
+            "type": "string"
+          }
+        }
+      },
+      "GameMedia": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "PurchaseMethod": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "deliveryHandler": {
+            "type": "string"
+          }
+        }
+      },
+      "GameVersion": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "versionId": {
+            "type": "string"
+          },
+          "versionCode": {
+            "type": "string"
+          },
+          "versionTitle": {
+            "type": "string"
+          },
+          "offers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameOffer"
+            }
+          }
+        }
+      },
+      "GameOffer": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "offerId": {
+            "type": "string"
+          },
+          "offerCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "purchaseMethod": {
+            "$ref": "#/components/schemas/PurchaseMethod"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "stockQuantity": {
+            "type": "integer"
+          },
+          "deliveryHandler": {
+            "type": "string"
+          }
+        }
+      },
+      "GameSearchFilters": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "purchaseMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseMethod"
+            }
+          },
+          "priceRanges": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "sortOptions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "GameSearchResultPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "FlashSale": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummary"
+            }
+          }
+        }
+      },
+      "CartItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "gameId": {
+            "type": "string"
+          },
+          "versionId": {
+            "type": "string"
+          },
+          "purchaseMethodCode": {
+            "type": "string"
+          },
+          "offerId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Money"
+          }
+        }
+      },
+      "Cart": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          },
+          "total": {
+            "$ref": "#/components/schemas/Money"
+          }
+        }
+      },
+      "AddCartItemRequest": {
+        "type": "object",
+        "required": [
+          "gameId",
+          "offerId",
+          "quantity"
+        ],
+        "properties": {
+          "gameId": {
+            "type": "string"
+          },
+          "offerId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateCartItemRequest": {
+        "type": "object",
+        "required": [
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateOrderItem": {
+        "type": "object",
+        "required": [
+          "gameId",
+          "offerId",
+          "quantity"
+        ],
+        "properties": {
+          "gameId": {
+            "type": "string"
+          },
+          "offerId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "CART",
+              "BUY_NOW"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateOrderItem"
+            }
+          }
+        }
+      },
+      "MockPaymentRequest": {
+        "type": "object",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": [
+              "MOCK_BALANCE",
+              "MOCK_CARD"
+            ]
+          }
+        }
+      },
+      "OrderSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderNo": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "totalAmount": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "OrderItemSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "gameId": {
+            "type": "string"
+          },
+          "gameTitle": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "deliveryType": {
+            "$ref": "#/components/schemas/DeliveryType"
+          }
+        }
+      },
+      "OrderSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "OrderDetail": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/OrderSummary"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemSummary"
+            }
+          },
+          "entitlements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entitlement"
+            }
+          },
+          "supportSessionId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Entitlement": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EntitlementStatus"
+          },
+          "deliveryType": {
+            "$ref": "#/components/schemas/DeliveryType"
+          },
+          "displayText": {
+            "type": "string"
+          },
+          "deliveredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "EntitlementPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entitlement"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "SupportIssueType": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "SupportContext": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "recentOrders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderSummary"
+            }
+          },
+          "recentEntitlements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entitlement"
+            }
+          },
+          "activeSessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportSession"
+            }
+          }
+        }
+      },
+      "SupportSession": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SupportSessionStatus"
+          },
+          "issueCode": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SupportSessionDetail": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "session": {
+            "$ref": "#/components/schemas/SupportSession"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderSummary"
+          },
+          "entitlement": {
+            "$ref": "#/components/schemas/Entitlement"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportMessage"
+            }
+          }
+        }
+      },
+      "SupportMessage": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sequenceNo": {
+            "type": "integer"
+          },
+          "senderType": {
+            "$ref": "#/components/schemas/MessageSenderType"
+          },
+          "content": {
+            "type": "string"
+          },
+          "agentSuggested": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SupportMessagePage": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportMessage"
+            }
+          }
+        }
+      },
+      "CreateSupportSessionRequest": {
+        "type": "object",
+        "required": [
+          "issueCode"
+        ],
+        "properties": {
+          "issueCode": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "entitlementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "initialMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSupportMessageRequest": {
+        "type": "object",
+        "required": [
+          "messageKey",
+          "content"
+        ],
+        "properties": {
+          "messageKey": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "CustomerProfile": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "StaffConversationSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "consumerName": {
+            "type": "string"
+          },
+          "issueLabel": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SupportSessionStatus"
+          },
+          "waitText": {
+            "type": "string"
+          },
+          "riskLevel": {
+            "$ref": "#/components/schemas/RiskLevel"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "StaffConversationSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffConversationSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "StaffConversationDetail": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "session": {
+            "$ref": "#/components/schemas/SupportSessionDetail"
+          },
+          "agentRecommendation": {
+            "type": "string"
+          },
+          "staffBoundaryNote": {
+            "type": "string"
+          }
+        }
+      },
+      "TicketSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticketNo": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TicketType"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TicketStatus"
+          },
+          "riskLevel": {
+            "$ref": "#/components/schemas/RiskLevel"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TicketSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "TicketRecord": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "sequenceNo": {
+            "type": "integer"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actorName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TicketDetail": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/TicketSummary"
+          },
+          "description": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketRecord"
+            }
+          }
+        }
+      },
+      "CreateTicketRequest": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "description"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/TicketType"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "entitlementId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TicketTransitionRequest": {
+        "type": "object",
+        "required": [
+          "action",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "expectedVersion": {
+            "type": "integer"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "GameAdminItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "game": {
+            "$ref": "#/components/schemas/GameSummary"
+          },
+          "stockText": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer"
+          }
+        }
+      },
+      "GameAdminItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameAdminItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "CreateGameDraftRequest": {
+        "type": "object",
+        "required": [
+          "title",
+          "platform"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateGameRequest": {
+        "type": "object",
+        "required": [
+          "expectedVersion"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "deliveryType": {
+            "$ref": "#/components/schemas/DeliveryType"
+          },
+          "expectedVersion": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateGamePublishStatusRequest": {
+        "type": "object",
+        "required": [
+          "status",
+          "expectedVersion"
+        ],
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/GamePublishStatus"
+          },
+          "expectedVersion": {
+            "type": "integer"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "FeaturedGameItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "gameId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FeaturedGameItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeaturedGameItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "SaveFeaturedGamesRequest": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeaturedGameItem"
+            }
+          }
+        }
+      },
+      "FlashSaleAdminItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "itemCount": {
+            "type": "integer"
+          }
+        }
+      },
+      "FlashSaleAdminItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlashSaleAdminItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "CreateFlashSaleRequest": {
+        "type": "object",
+        "required": [
+          "title",
+          "startsAt",
+          "endsAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gameIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateFlashSaleStatusRequest": {
+        "type": "object",
+        "required": [
+          "status",
+          "expectedVersion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "expectedVersion": {
+            "type": "integer"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateUploadPresignRequest": {
+        "type": "object",
+        "required": [
+          "fileName",
+          "contentType",
+          "size",
+          "purpose"
+        ],
+        "properties": {
+          "fileName": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "GAME_MEDIA",
+              "KNOWLEDGE_DOCUMENT"
+            ]
+          },
+          "gameId": {
+            "type": "string",
+            "nullable": true
+          },
+          "checksum": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UploadPresignResult": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "uploadId": {
+            "type": "string"
+          },
+          "objectKey": {
+            "type": "string"
+          },
+          "uploadUrl": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "object"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CompleteUploadRequest": {
+        "type": "object",
+        "required": [
+          "objectKey"
+        ],
+        "properties": {
+          "objectKey": {
+            "type": "string"
+          },
+          "etag": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UploadedAsset": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "uploadId": {
+            "type": "string"
+          },
+          "objectKey": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          }
+        }
+      },
+      "BindGameMediaRequest": {
+        "type": "object",
+        "required": [
+          "uploadId",
+          "mediaType",
+          "sortOrder"
+        ],
+        "properties": {
+          "uploadId": {
+            "type": "string"
+          },
+          "mediaType": {
+            "type": "string",
+            "enum": [
+              "COVER",
+              "SCREENSHOT",
+              "DETAIL"
+            ]
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "GameMediaAdminItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "mediaType": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "SaveGameMediaSortOrderRequest": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "EntitlementAdminItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "entitlement": {
+            "$ref": "#/components/schemas/Entitlement"
+          },
+          "consumerName": {
+            "type": "string"
+          },
+          "orderNo": {
+            "type": "string"
+          },
+          "gameTitle": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "EntitlementAdminItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntitlementAdminItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "RefundReviewSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticketNo": {
+            "type": "string"
+          },
+          "orderNo": {
+            "type": "string"
+          },
+          "consumerName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "requestedAmount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RefundReviewSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefundReviewSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "AccountActionSummary": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticketNo": {
+            "type": "string"
+          },
+          "targetUserName": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "operatorName": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AccountActionSummaryPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountActionSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "KnowledgeBaseItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "documentCount": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "KnowledgeBaseItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KnowledgeBaseItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "CreateKnowledgeBaseRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "KnowledgeDocument": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "parseStatus": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "KnowledgeDocumentPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KnowledgeDocument"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "CreateKnowledgeDocumentRequest": {
+        "type": "object",
+        "required": [
+          "title",
+          "sourceType",
+          "content"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "SupportAgent": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "acceptedCount": {
+            "type": "integer"
+          },
+          "satisfactionRate": {
+            "type": "number"
+          }
+        }
+      },
+      "SupportAgentPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportAgent"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "UpdateSupportAgentStatusRequest": {
+        "type": "object",
+        "required": [
+          "status",
+          "reason"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "RoleModulePermission": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "roleCode": {
+            "type": "string"
+          },
+          "moduleCode": {
+            "type": "string"
+          },
+          "moduleLabel": {
+            "type": "string"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SaveRoleModulePermissionsRequest": {
+        "type": "object",
+        "required": [
+          "items",
+          "expectedVersion"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleModulePermission"
+            }
+          }
+        }
+      },
+      "RoleModulePermissionResult": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "version": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleModulePermission"
+            }
+          }
+        }
+      },
+      "AuditLogItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "actorName": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "resourceType": {
+            "type": "string"
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "string"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuditLogItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditLogItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "AgentCallLogItem": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "modelName": {
+            "type": "string"
+          },
+          "promptVersion": {
+            "type": "string"
+          },
+          "latencyMs": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgentCallLogItemPage": {
+        "type": "object",
+        "required": [
+          "items",
+          "page"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentCallLogItem"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "correlationId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

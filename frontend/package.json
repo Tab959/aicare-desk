@@ -1,0 +1,25 @@
+{
+  "name": "aicare-desk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI ecommerce after-sales customer service and work-order dispatch platform.",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "check": "pnpm -r --if-present check",
+    "dev:customer": "pnpm --filter @aicare/customer-web dev",
+    "dev:staff": "pnpm --filter @aicare/staff-web dev",
+    "compose:core:up": "pwsh -NoProfile -File ../resources/scripts/start-core.ps1",
+    "compose:core:down": "pwsh -NoProfile -File ../resources/scripts/stop-core.ps1",
+    "verify:vm-core": "pwsh -NoProfile -File ../resources/scripts/verify-vm-core.ps1",
+    "verify:stage0": "pwsh -NoProfile -File ../resources/scripts/verify-stage0.ps1",
+    "verify:stage1": "pwsh -NoProfile -File ../resources/scripts/verify-stage1.ps1"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.12",
+    "@vitejs/plugin-react": "4.3.1",
+    "typescript": "5.5.4",
+    "vite": "5.4.2",
+    "vitest": "2.0.5"
+  }
+}
