@@ -22,3 +22,27 @@ target/
 .next/
 coverage/
 *.log
+
+# Package manager and generated caches
+.pnpm-store/
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java tooling
+.mvn/
+!.mvn/wrapper/
+*.class
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Local Docker volumes
+deploy/compose/.data/
